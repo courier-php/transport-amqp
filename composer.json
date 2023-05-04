@@ -1,0 +1,49 @@
+{
+  "name": "courier/transport-amqp",
+  "description": "AMQP-based asynchronous transport for Courier message bus.",
+  "keywords": ["amqp", "rabbitmq", "queue"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Flavio Heleno",
+      "email": "flaviohbatista@gmail.com",
+      "homepage": "https://flavioheleno.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Courier\\Transports\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Courier\\Test\\": "tests/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "sandersander/composer-link": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^8.2",
+    "composer-runtime-api": "^2",
+    "courier/contracts": "self.version",
+    "courier/courier": "self.version",
+    "nyholm/dsn": "^2.0"
+  },
+  "require-dev": {
+    "php-amqplib/php-amqplib": "^3.5",
+    "sandersander/composer-link": "^0.3"
+  },
+  "suggest": {
+    "ext-amqp": "For using AmqpExtTransport",
+    "php-amqplib/php-amqplib": "For using AmqpLibTransport"
+  }
+}
