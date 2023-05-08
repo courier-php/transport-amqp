@@ -33,7 +33,7 @@
   "require": {
     "php": "^8.2",
     "ext-amqp": "*",
-    "courier/contracts": "dev-main",
+    "courier/contracts": "self.version",
     "nyholm/dsn": "^2.0"
   },
   "require-dev": {
