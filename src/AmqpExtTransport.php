@@ -276,6 +276,15 @@ class AmqpExtTransport implements TransportInterface {
         ]
       );
 
+      $headers = $envelope->getHeaders();
+      if (isset($headers['x-death']['count']) === true) {
+        $message->setProperty('failCount', $headers['x-death']['count']);
+      }
+
+      if (isset($headers['x-death']['time']) === true) {
+        $message->setProperty('failTime', $headers['x-death']['time']);
+      }
+
       return $message;
       // return $this->fromEnvelope($envelope);
     } catch (AMQPException $exception) {
