@@ -29,7 +29,7 @@ class AmqpExtTransport implements TransportInterface {
    * @var array<string, AMQPQueue>
    */
   private array $amqpQueues = [];
-  private string $exchangeName = 'courier';
+  private string $exchangeName;
 
   private function getChannel(): AMQPChannel {
     static $channel = null;
@@ -167,7 +167,7 @@ class AmqpExtTransport implements TransportInterface {
 
     foreach ($this->registeredRoutes[$routingKey] as $queueName => $status) {
       if ($status === true) {
-        // already done
+        // already registered
         continue;
       }
 
@@ -192,10 +192,12 @@ class AmqpExtTransport implements TransportInterface {
 
   public function __construct(
     AMQPConnection $amqpConnection,
-    SerializerInterface $serializer = new JsonSerializer()
+    SerializerInterface $serializer = new JsonSerializer(),
+    string $exchangeName = 'courier'
   ) {
     $this->amqpConnection = $amqpConnection;
     $this->serializer = $serializer;
+    $this->exchangeName = $exchangeName;
   }
 
   public function addRoute(string $routingKey, string $queueName): self {
