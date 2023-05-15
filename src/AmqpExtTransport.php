@@ -12,6 +12,7 @@ use AMQPQueue;
 use Courier\Contracts\Messages\MessageInterface;
 use Courier\Contracts\Serializers\SerializerInterface;
 use Courier\Contracts\Transports\TransportInterface;
+use Courier\Exceptions\SerializerException;
 use Courier\Exceptions\TransportException;
 use Courier\Serializers\JsonSerializer;
 
@@ -244,7 +245,7 @@ class AmqpExtTransport implements TransportInterface {
       if ($envelope->getContentEncoding() !== $this->serializer->getContentEncoding()) {
         throw new SerializerException(
           sprintf(
-            'Cannot decode "%s" using "%s"',
+            'Cannot decode content-encoding "%s" using "%s"',
             $envelope->getContentEncoding(),
             $this->serializer::class
           )
@@ -254,7 +255,7 @@ class AmqpExtTransport implements TransportInterface {
       if ($envelope->getContentType() !== $this->serializer->getContentType()) {
         throw new SerializerException(
           sprintf(
-            'Cannot unserialize "%s" using "%s"',
+            'Cannot unserialize content-type "%s" using "%s"',
             $envelope->getContentType(),
             $this->serializer::class
           )
