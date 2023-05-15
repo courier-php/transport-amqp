@@ -143,10 +143,10 @@ class AmqpExtTransport implements TransportInterface {
       $amqpQueue->setName("{$this->exchangeName}.dead");
       $amqpQueue->setFlags(AMQP_DURABLE);
       $amqpQueue->declareQueue();
+      $amqpQueue->bind("{$this->exchangeName}.dead");
 
       // unrouted messages queue (max 1000 messages, drop-head on overflow, max ttl 1 day)
       $amqpQueue = new AMQPQueue($this->getChannel());
-      $amqpQueue->bind("{$this->exchangeName}.dead");
       $amqpQueue->setName("{$this->exchangeName}.unrouted");
       $amqpQueue->setFlags(AMQP_DURABLE);
       $amqpQueue->setArgument('x-max-length', 1000);
