@@ -200,6 +200,33 @@ class AmqpExtTransport implements TransportInterface {
     $this->exchangeName = $exchangeName;
   }
 
+  public function purge(string $queueName): void {
+    try {
+      $this->setupServer();
+      $amqpQueue = $this->setupQueue($queueName);
+      $amqpQueue->purge();
+    } catch (AMQPException $exception) {
+      throw new TransportException(
+        'Failed to purge queue',
+        previous: $exception
+      );
+    }
+  }
+
+  public function pending(string $queueName): int {
+    try {
+      $this->setupServer();
+      $amqpQueue = $this->setupQueue($queueName);
+
+      return $amqpQueue->declareQueue();
+    } catch (AMQPException $exception) {
+      throw new TransportException(
+        'Failed to list pending messages',
+        previous: $exception
+      );
+    }
+  }
+
   public function addRoute(string $routingKey, string $queueName): self {
     $this->registeredRoutes[$routingKey] ??= [];
     if (in_array($queueName, $this->registeredRoutes[$routingKey], true) === false) {
