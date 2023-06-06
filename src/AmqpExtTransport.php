@@ -142,6 +142,8 @@ class AmqpExtTransport implements TransportInterface {
       $amqpQueue = new AMQPQueue($this->getChannel());
       $amqpQueue->setName("{$this->exchangeName}.dead");
       $amqpQueue->setFlags(AMQP_DURABLE);
+      $amqpQueue->setArgument('x-queue-mode', 'lazy');
+      $amqpQueue->setArgument('x-queue-version', 2);
       $amqpQueue->declareQueue();
       $amqpQueue->bind("{$this->exchangeName}.dead");
 
@@ -152,6 +154,8 @@ class AmqpExtTransport implements TransportInterface {
       $amqpQueue->setArgument('x-max-length', 1000);
       $amqpQueue->setArgument('x-overflow', 'drop-head');
       $amqpQueue->setArgument('x-message-ttl', 86_400_000);
+      $amqpQueue->setArgument('x-queue-mode', 'lazy');
+      $amqpQueue->setArgument('x-queue-version', 2);
       $amqpQueue->declareQueue();
       $amqpQueue->bind("{$this->exchangeName}.unrouted");
 
@@ -183,6 +187,8 @@ class AmqpExtTransport implements TransportInterface {
       $amqpQueue->setName($queueName);
       $amqpQueue->setFlags(AMQP_DURABLE);
       $amqpQueue->setArgument('x-dead-letter-exchange', "{$this->exchangeName}.dead");
+      $amqpQueue->setArgument('x-queue-mode', 'lazy');
+      $amqpQueue->setArgument('x-queue-version', 2);
       $amqpQueue->declareQueue();
       $this->amqpQueues[$queueName] = $amqpQueue;
     }
