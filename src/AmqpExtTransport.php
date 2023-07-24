@@ -14,7 +14,6 @@ use Courier\Contracts\Serializers\SerializerInterface;
 use Courier\Contracts\Transports\TransportInterface;
 use Courier\Exceptions\SerializerException;
 use Courier\Exceptions\TransportException;
-use Courier\Serializers\JsonSerializer;
 
 class AmqpExtTransport implements TransportInterface {
   private SerializerInterface $serializer;
@@ -198,7 +197,7 @@ class AmqpExtTransport implements TransportInterface {
 
   public function __construct(
     AMQPConnection $amqpConnection,
-    SerializerInterface $serializer = new JsonSerializer(),
+    SerializerInterface $serializer,
     string $exchangeName = 'courier'
   ) {
     $this->amqpConnection = $amqpConnection;
